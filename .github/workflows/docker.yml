@@ -61,11 +61,12 @@ jobs:
       run: |
         wget https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/${JAR_VERSION}/swagger-codegen-cli-${JAR_VERSION}.jar -O swagger-codegen-cli.jar
         docker buildx build --platform=linux/amd64,linux/arm64 -f ${DOCKERFILE} --push -t "${ORG}/${IMAGE_NAME}:${TAG}" -t "${ORG}/${IMAGE_NAME}:${JAR_VERSION}" -t "${ORG}/${IMAGE_NAME}:${{ needs.setup.outputs.sha_short }}" .
-    # see https://github.com/marketplace/actions/docker-hub-description#action-inputs
-    - name: Update DockerHub Description
-      uses: peter-evans/dockerhub-description@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-        repository: ${ORG}/${IMAGE_NAME}
-        # readme-filepath: ./path/to/README.md
+    # # see https://github.com/marketplace/actions/docker-hub-description#action-inputs
+    # - name: Update DockerHub Description
+    #   uses: peter-evans/dockerhub-description@v2
+    #   with:
+    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #     # NOTE: only a Docker password works for this as of now :(
+    #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    #     repository: ${ORG}/${IMAGE_NAME}
+    #     # readme-filepath: ./path/to/README.md
